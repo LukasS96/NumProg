@@ -19,9 +19,11 @@ public class PageRank {
             for (int i = 0; i < n; i++) {
                 links += L[i][j];
             }
+
+            double a = 1 / links;
+
             // calculate a-tilde
             for (int i = 0; i < n; i++) {
-                double a = 1 / links;
                 A[i][j] = (1 - rho) * a * L[i][j] + rho / n;
             }
         }
