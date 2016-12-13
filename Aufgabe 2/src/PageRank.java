@@ -44,7 +44,27 @@ public class PageRank {
 	public static double[] rank(int[][] L, double rho) {
 		//TODO: Diese Methode ist zu implementieren
 		double[][] A = buildProbabilityMatrix(L, rho);
-		return new double[2];
+
+        // A-tilde - I
+        for (int i = 0; i < A.length; i++) {
+            A[i][i] -= 1;
+        }
+
+        // solve (A-tilde - I) * p = 0 with p != 0
+        double[] p = Gauss.solveSing(A);
+
+        // calc lambda
+        double p_sum = 0;
+        for (double p_j: p) {
+            p_sum += p_j;
+        }
+        double lambda = 1 / p_sum;
+        
+        // calc p-strich
+        for (int j = 0; j < p.length; j++) {
+            p[j] *= lambda;
+        }
+        return p;
 	}
 
 	/**
