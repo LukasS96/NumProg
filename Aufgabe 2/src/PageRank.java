@@ -22,7 +22,7 @@ public class PageRank {
 
             // calculate a-tilde
             for (int i = 0; i < n; i++) {
-                double a_ij = (double) 1 / links * L[i][j];
+                double a_ij = 1.0 / links * L[i][j];
                 A[i][j] = (1 - rho) * a_ij  + rho / n;
             }
         }
@@ -57,7 +57,7 @@ public class PageRank {
         for (double p_j: p) {
             p_sum += p_j;
         }
-        double lambda = (double) 1 / p_sum;
+        double lambda = 1.0 / p_sum;
 
         // calc p-strich
         for (int j = 0; j < p.length; j++) {
