@@ -21,12 +21,8 @@ public class PageRank {
             }
             // calculate a-tilde
             for (int i = 0; i < n; i++) {
-                if (L[i][j] == 1) {
-                    double a = 1 / links;
-                    A[i][j] = (1 - rho) * a + rho / n;
-                } else {
-                    A[i][j] = rho / n;
-                }
+                double a = 1 / links;
+                A[i][j] = (1 - rho) * a * L[i][j] + rho / n;
             }
         }
 		return A;
