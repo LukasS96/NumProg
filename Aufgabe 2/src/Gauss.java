@@ -10,8 +10,16 @@ public class Gauss {
 	 * b: Ein Vektor der Laenge n
 	 */
 	public static double[] backSubst(double[][] R, double[] b) {
-		//TODO: Diese Methode ist zu implementieren
-		return new double[2];
+		double[] x = new double[b.length];
+		double buffer;
+		for(int i = b.length - 1; i > -1; i--) {
+			buffer = b[i];
+			for(int j = b.length - 1; j > i; j--) {
+				buffer -= R[i][j] * x[j];
+			}
+			x[i] = buffer/R[i][i];
+		}
+		return x;
 	}
 
 	/**
@@ -80,6 +88,7 @@ public class Gauss {
 		return new double[2];
 	}
 
+	//TODO: Entfernen, nur zum Debuggen da..
 	public static void printMatrix(double[][] A) {
 		String output = "";
 		for(int y = 0; y < A.length; y++) {

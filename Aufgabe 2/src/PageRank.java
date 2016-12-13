@@ -11,8 +11,14 @@ public class PageRank {
 	 *      zufaellig irgendeine Seite zu besuchen
 	 */
 	public static double[][] buildProbabilityMatrix(int[][] L, double rho) {
-		//TODO: Diese Methode ist zu implementieren
-		return new double[2][2];
+		int n = L.length;
+		double[][] A = new double[n][n];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				A[i][j] = (1 - rho) * A[i][j] + rho / n;
+			}
+		}
+		return A;
 	}
 
 	/**
