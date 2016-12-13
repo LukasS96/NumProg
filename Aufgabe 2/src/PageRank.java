@@ -15,7 +15,7 @@ public class PageRank {
 		double[][] A = new double[n][n];
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
-				A[i][j] = (1 - rho) * A[i][j] + rho / n;
+				A[i][j] = (1 - rho) * L[i][j] + rho / n;
 			}
 		}
 		return A;

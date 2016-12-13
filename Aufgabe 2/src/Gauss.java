@@ -30,13 +30,20 @@ public class Gauss {
 	 * b: Ein Vektor der Laenge n
 	 */
 	public static double[] solve(double[][] A, double[] b) {
-		//TODO: Diese Methode ist zu implementieren
-		double[][] C = A.clone();
+		double[][] C = new double[A.length][A.length];
+		for(int y = 0; y < A.length; y++) {
+			for(int x = 0; x < A.length; x++) {
+				C[y][x] = A[y][x];
+			}
+		}
+
 		double[] d = b.clone();
 
 		int rowCount = C.length;
 		int columnCount = C[0].length;
-		printMatrix(A);
+		//System.out.println("Ursprüngliche Matrix:");
+		//Util.printMatrix(A);
+		//System.out.println("");
 
 		for(int x = 0; x < columnCount-1; x++) {
 			//Pivotisieren
@@ -50,19 +57,24 @@ public class Gauss {
 			double[] pivotRow = C[pivot];
 			C[pivot] = C[x];
 			C[x] = pivotRow;
+			double pivotD = d[pivot];
+			d[pivot] = d[x];
+			d[x] = pivotD;
 
 			//Reihe von nachfolgenden Reihen multiplizieren und abziehen
 			double pivotValue = C[x][x];
 			for(int y = x+1; y < rowCount; y++) {
 				double factor = C[y][x] / pivotValue;
 				for(int xSub = x; xSub < columnCount; xSub++) {
-					C[xSub][y] = C[xSub][y] - factor * C[xSub][x];
+					C[y][xSub] = C[y][xSub] - factor * C[x][xSub];
 				}
-				printMatrix(C);
+				d[y] = d[y] - factor * d[x];
+				//Util.printMatrix(C);
+				//System.out.println("");
 			}
 		}
 
-		double[] result = backSubst(C, b);
+		double[] result = backSubst(C, d);
 		return result;
 	}
 
@@ -85,21 +97,63 @@ public class Gauss {
 	 */
 	public static double[] solveSing(double[][] A) {
 		//TODO: Diese Methode ist zu implementieren
-		return new double[2];
-	}
-
-	//TODO: Entfernen, nur zum Debuggen da..
-	public static void printMatrix(double[][] A) {
-		String output = "";
+		double[][] C = new double[A.length][A.length];
 		for(int y = 0; y < A.length; y++) {
-			output += "[";
-			for(int x = 0; x < A[0].length-1; x++) {
-				output += A[y][x] + ", ";
+			for(int x = 0; x < A.length; x++) {
+				C[y][x] = A[y][x];
 			}
-			output += A[y][A[0].length-1];
-			output += "]\n";
 		}
-		System.out.println(output);
+
+		int rowCount = C.length;
+		int columnCount = C[0].length;
+
+		boolean pivotZero = false;
+
+		int x;
+		for(x = 0; x < columnCount; x++) {
+			int pivot = x;
+			for(int y = 0; y < rowCount; y++) {
+				if(Math.abs(C[y][x]) > Math.abs(C[pivot][x])) {
+					pivot = y;
+				}
+			}
+			if(C[pivot][x] == 0) {
+				pivotZero = true;
+				break;
+			}
+			//Reihen tauschen
+			double[] pivotRow = C[pivot];
+			C[pivot] = C[x];
+			C[x] = pivotRow;
+
+			//Reihe von nachfolgenden Reihen multiplizieren und abziehen
+			double pivotValue = C[x][x];
+			for(int y = x+1; y < rowCount; y++) {
+				double factor = C[y][x] / pivotValue;
+				for(int xSub = x; xSub < columnCount; xSub++) {
+					C[y][xSub] = C[y][xSub] - factor * C[x][xSub];
+				}
+			}
+		}
+		if(!pivotZero) {
+			return new double[rowCount];
+		}
+		else {
+			double[] mv = new double[x];
+			for(int y = 0; y < x-1; y++) {
+				mv[y] = -C[y][x];
+			}
+			double[] xVector = backSubst(C, mv);
+			double[] result = new double[rowCount];
+			for(int i = 0; i < xVector.length; i++) {
+				result[i] = xVector[i];
+			}
+			result[xVector.length] = 1;
+			for(int i = xVector.length+1; i < rowCount; i++) {
+				result[i] = 0;
+			}
+			return result;
+		}
 	}
 
 	/**
