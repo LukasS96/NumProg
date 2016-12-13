@@ -57,7 +57,7 @@ public class PageRank {
         for (double p_j: p) {
             p_sum += p_j;
         }
-        double lambda = 1 / p_sum;
+        double lambda = (double) 1 / p_sum;
 
         // calc p-strich
         for (int j = 0; j < p.length; j++) {
