@@ -13,16 +13,13 @@ public class PageRank {
 	public static double[][] buildProbabilityMatrix(int[][] L, double rho) {
 		int n = L.length;
 		double[][] A = new double[n][n];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-                A[i][j] = (1 - rho) * L[i][j] + rho / n;
-			}
-		}
         for (int j = 0; j < n; j++) {
+            // count outgoing links from j
             int links = 0;
             for (int i = 0; i < n; i++) {
                 links += L[i][j];
             }
+            // calculate a-tilde
             for (int i = 0; i < n; i++) {
                 if (L[i][j] == 1) {
                     double a = 1 / links;
