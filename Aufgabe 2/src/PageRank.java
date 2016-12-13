@@ -20,11 +20,10 @@ public class PageRank {
                 links += L[i][j];
             }
 
-            double a = 1 / links;
-
             // calculate a-tilde
             for (int i = 0; i < n; i++) {
-                A[i][j] = (1 - rho) * a * L[i][j] + rho / n;
+                double a_ij = (double) 1 / links * L[i][j];
+                A[i][j] = (1 - rho) * a_ij  + rho / n;
             }
         }
 		return A;
@@ -59,7 +58,7 @@ public class PageRank {
             p_sum += p_j;
         }
         double lambda = 1 / p_sum;
-        
+
         // calc p-strich
         for (int j = 0; j < p.length; j++) {
             p[j] *= lambda;
