@@ -22,6 +22,11 @@ public class Test {
 		boolean test_crawler = true;
 
 		double b[] = {1, 2, 3, 4, 5};
+		double D[][] = { //not invertible
+			{2, 2, 3},
+			{6, 6, 9},
+			{1, 4, 8}
+		};
 		double C[][] = {
 			{1, 0, 3, 4, -2}, 
 			{0, -1, 4, 5, 1},
@@ -113,7 +118,8 @@ public class Test {
 				Util.printVector(b);
 			}
 
-			System.out.println("  Test der Methode solveSing mit beliebiger Matrix A");
+
+			System.out.println("  Test der Methode solveSing mit invertierbarer Matrix A");
 			x = Gauss.solveSing(A);
 			Ax = Gauss.matrixVectorMult(A, x);
 			/*double lambda = xA[0] / x[0];
@@ -129,6 +135,22 @@ public class Test {
 				Util.printVector(Ax);
 				System.out.println("            soll geich Nullvektor sein:");
 				Util.printVector(nullvektor);
+			}
+
+
+			System.out.println("Test der Methoder solveSing mit nicht invertierbarer Matrix D");
+			x = Gauss.solveSing(D);
+			double[] Dx = Gauss.matrixVectorMult(D, x);
+			double[] nullvektor3 = {0, 0, 0};
+			if (Util.vectorCompare(Dx, nullvektor3)) {
+				System.out.println("	Richtiges Ergebnis");
+			} else {
+				System.out.println("    FEHLER: falsches Ergebnis x:");
+				Util.printVector(x);
+				System.out.println("            Ergebnis von A * x:");
+				Util.printVector(Dx);
+				System.out.println("            soll geich Nullvektor sein:");
+				Util.printVector(nullvektor3);
 			}
 		}
 

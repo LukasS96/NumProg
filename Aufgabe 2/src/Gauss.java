@@ -48,7 +48,7 @@ public class Gauss {
 		for(int x = 0; x < columnCount-1; x++) {
 			//Pivotisieren
 			int pivot = x;
-			for(int y = 0; y < rowCount; y++) {
+			for(int y = x; y < rowCount; y++) {
 				if(Math.abs(C[y][x]) > Math.abs(C[pivot][x])) {
 					pivot = y;
 				}
@@ -96,7 +96,6 @@ public class Gauss {
 	 * A: Eine singulaere Matrix der Groesse n x n 
 	 */
 	public static double[] solveSing(double[][] A) {
-		//TODO: Diese Methode ist zu implementieren
 		double[][] C = new double[A.length][A.length];
 		for(int y = 0; y < A.length; y++) {
 			for(int x = 0; x < A.length; x++) {
@@ -112,7 +111,7 @@ public class Gauss {
 		int x;
 		for(x = 0; x < columnCount; x++) {
 			int pivot = x;
-			for(int y = 0; y < rowCount; y++) {
+			for(int y = x; y < rowCount; y++) {
 				if(Math.abs(C[y][x]) > Math.abs(C[pivot][x])) {
 					pivot = y;
 				}
@@ -140,7 +139,7 @@ public class Gauss {
 		}
 		else {
 			double[] mv = new double[x];
-			for(int y = 0; y < x-1; y++) {
+			for(int y = 0; y < x; y++) {
 				mv[y] = -C[y][x];
 			}
 			double[] xVector = backSubst(C, mv);
