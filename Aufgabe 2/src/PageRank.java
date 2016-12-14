@@ -51,6 +51,16 @@ public class PageRank {
 
         // solve (A-tilde - I) * p = 0 with p != 0
         double[] p = Gauss.solveSing(A);
+        boolean isNull = true;
+        for (double p_j: p) {
+            if (p_j != 0) {
+                isNull = false;
+                break;
+            }
+        }
+        if (isNull) {
+            p = Gauss.solve(A, new double[A.length]);
+        }
 
         // calc lambda
         double p_sum = 0;
